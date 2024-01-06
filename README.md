@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+* // Everything, i.e. all documents
+*[] // Everything with no filters applied, i.e. all documents
+*[_type == "movie"] // All movie documents
+*[_id == "abc.123"] // _id equals
+*[_type in ["movie", "person"]] // _type is movie or person
+*[_type == "movie" && popularity > 15 && releaseDate > "2016-04-25"] // multiple filters AND
+*[_type == "movie" && (popularity > 15 || releaseDate > "2016-04-25")] // multiple filters OR
+*[popularity < 15] // less than
+*[popularity > 15] // greater than
+*[popularity <= 15] // less than or equal
+*[popularity >= 15] // greater than or equal
+*[popularity == 15]
+*[releaseDate != "2016-04-27"] // not equal
+*[!(releaseDate == "2016-04-27")] // not equal
+*[!(releaseDate != "2016-04-27")] // even equal via double negatives "not not equal"
+*[dateTime(_updatedAt) > dateTime('2018-04-20T20:43:31Z')] // Use zulu-time when comparing datetimes to strings
+*[dateTime(_updatedAt) > dateTime(now()) - 60*60*24*7] // Updated within the past week
+*[name < "Baker"] // Records whose name precedes "Baker" alphabetically
+*[awardWinner == true] // match boolean
+*[awardWinner] // true if awardWinner == true
+*[!awardWinner] // true if awardWinner == false
+*[defined(awardWinner)] // has been assigned an award winner status (any kind of value)
+*[!defined(awardWinner)] // has not been assigned an award winner status (any kind of value)
+*[title == "Aliens"]
+*[title in ["Aliens", "Interstellar", "Passengers"]]
+*[_id in path("a.b.c.*")] // _id matches a.b.c.d but not a.b.c.d.e
+*[_id in path("a.b.c.**")] // _id matches a.b.c.d, and also a.b.c.d.e.f.g, but not a.b.x.1
+*[!(_id in path("drafts.**"))] // _id matches anything that is not under the drafts-path
+*["yolo" in tags] // documents that have the string "yolo" in the array "tags"
+*[status in ["completed", "archived"]] // the string field status is either == "completed" or "archived"
+*["person_sigourney-weaver" in castMembers[].person._ref] // Any document having a castMember referencing sigourney as its person
+*[slug.current == "some-slug"] // nested properties
+*[count((categories[]->slug.current)[@ in ["action", "thriller"]]) > 0] // documents that reference categories with slugs of "action" or "thriller"
+*[count((categories[]->slug.current)[@ in ["action", "thriller"]]) == 2] // documents that reference categories with slugs of "action" and "thriller"
+  // set == 2 based on the total number of items in the array
+```
